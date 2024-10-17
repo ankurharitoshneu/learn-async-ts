@@ -1,1 +1,31 @@
 Explain the code execution based on the order of the messages logged in src/quiz/promise-2darray.txt.
+
+Explanation of Code Execution (for src/quiz/promise-2darray.ts)
+
+1. Initial Function Call Log:
+   - Message: `Sum called ...`
+   - Explanation: This message is logged as soon as `sum2DArray` is called, which happens synchronously. Since both `sumPromise1` and `sumPromise2` are called in succession, you'll see two instances of this message.
+
+2. Immediate Return Log:
+   - Message: `returning from sum`
+   - Explanation: This log appears after `Sum called ...` but still within the main execution flow. It’s logged before the `setTimeout` content begins executing, meaning the rest of the code in the `Promise` is still in the asynchronous queue to execute later.
+
+3. Error Handling Log (for `sumPromise2`):
+   - Message: `Error for sumPromise2: Cannot sum an empty array`
+   - Explanation: Since `sumPromise2` was created with an empty array, it immediately triggers the `reject` block due to the `if (arr.length === 0)` condition. The `.catch()` attached to `sumPromise2` catches the rejection and logs this error message.
+
+4. Delayed Sum Calculation Logs (for `sumPromise1`):
+   - Message: `Adding X to sum` (where X represents each element in `array2D`)
+   - Explanation: After the synchronous code finishes, the `setTimeout` function from `sumPromise1` starts executing. Each number in `array2D` is added to the total sum, logging each addition. These logs appear in sequence, showing the addition process step-by-step.
+
+5. Return Log Inside `setTimeout` (for `sumPromise1`):
+   - Message: `returning from sum`
+   - Explanation: This log now appears at the end of the `setTimeout` block, making it clear that the sum calculation has completed just before the `resolve(sum);` call.
+
+6. Promise Resolution Log (for `sumPromise1`):
+   - Message: `Result for sumPromise1: 45`
+   - Explanation: Finally, when the sum has been calculated and the promise is resolved, the `.then()` attached to `sumPromise1` logs the total sum. This confirms that the asynchronous operation has successfully completed and returned the expected result.
+
+ Summary
+The `sum2DArray` function logs synchronous messages immediately, with asynchronous operations (from `setTimeout`) following after the initial code completes. Error handling for an empty array occurs synchronously, while sum calculations are asynchronous, allowing you to track the code's flow based on message order.
+ 
